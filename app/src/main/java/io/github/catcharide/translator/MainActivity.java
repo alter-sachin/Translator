@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int MY_PERMISSION_RECORD_AUDIO = 1;
 
+    private SpeechListener speechListener = new SpeechListener();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("onCreate","is SpeechRecognizer Working ? " + SpeechRecognizer.isRecognitionAvailable(this));
         textView = (TextView)findViewById(R.id.textView);
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
-        speechRecognizer.setRecognitionListener(new SpeechListener());
+        speechRecognizer.setRecognitionListener(speechListener);
         Log.d("onCreate","is SpeechRecognizer Working ? " + SpeechRecognizer.isRecognitionAvailable(this));
 
     }
@@ -78,7 +80,22 @@ public class MainActivity extends AppCompatActivity {
         Log.d("startRecord","is SpeechRecognizer Working ? " + SpeechRecognizer.isRecognitionAvailable(this));
     }
 
-    class SpeechListener implements RecognitionListener{
+    public void startShare(View view) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, speechListener.getResultString());
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
+    }
+
+
+    private class SpeechListener implements RecognitionListener{
+
+        private String resultString;
+
+        public String getResultString() {
+            return resultString;
+        }
 
         @Override
         public void onReadyForSpeech(Bundle params) {
@@ -115,10 +132,12 @@ public class MainActivity extends AppCompatActivity {
             final ArrayList<String> resultData =
                     results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
             String data = "";
+            assert resultData != null;
             for(String result : resultData){
                 data += result;
             }
             Log.d("onResults",data);
+            resultString += resultData.get(0);
             textView.append(resultData.get(0));
         }
 
@@ -132,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 data += result;
             }
             Log.d("onResults",data);
-            textView.append(resultData.get(0));
+            //textView.append(resultData.get(0));
         }
 
         @Override

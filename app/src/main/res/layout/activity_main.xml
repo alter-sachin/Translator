@@ -27,10 +27,22 @@
         android:layout_height="0dp"
         android:text="Record"
         android:onClick="startRecord"
-        android:layout_marginRight="158dp"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginEnd="158dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="25dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Share"
+        android:onClick="startShare"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="158dp"
+        android:layout_marginBottom="80dp"/>
+
 </android.support.constraint.ConstraintLayout>
